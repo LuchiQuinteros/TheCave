@@ -13,6 +13,8 @@ public class PJ : MonoBehaviour
     [SerializeField]
     float modificadorVelocidad;
 
+    bool piso;
+
     Rigidbody rb;
 
 
@@ -23,9 +25,9 @@ public class PJ : MonoBehaviour
 
     void Update()
     {
-        MoviendoPj(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (piso) MoviendoPj(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space)) Jump();
+        if (Input.GetKeyDown(KeyCode.Space) && piso) Jump();
     }
 
     void MoviendoPj(float horizontal, float vertical)
@@ -47,5 +49,20 @@ public class PJ : MonoBehaviour
         //Realizamos que el personaje pueda saltar.
         rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
     }
-   
+
+    //Evitamos que el jugador siga saltando en el aire y no este volando.
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            piso = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            piso = false;
+        }
+    }
 }
