@@ -47,4 +47,5 @@ public class PJ : MonoBehaviour
         //Realizamos que el personaje pueda saltar.
         rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
     }
+   
 }
