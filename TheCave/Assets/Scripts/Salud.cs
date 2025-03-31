@@ -5,9 +5,9 @@ using UnityEngine;
 public class Salud : MonoBehaviour
 {
     [SerializeField]
-    public int vida;
+    public int _life;
     void Start()
     {
-        Debug.Log($"La salud que tiene el personaje es {vida} Puntos");
+        Debug.Log($"La salud que tiene el personaje es {_life} Puntos");
     }
 }

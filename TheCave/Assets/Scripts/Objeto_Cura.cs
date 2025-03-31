@@ -5,23 +5,24 @@ using UnityEngine;
 public class Objeto_Cura : MonoBehaviour
 {
     [SerializeField]
-    int cantidadCura;
+    int _cureAmount;
 
-    public Salud saludPj;
+    public Salud _lifePj;
 
     [SerializeField]
     GameObject PJ;
 
+    //Funcion en la cual declaramos que si el personaje colisiona con un objeto curativo, se le suma la salud.
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {
 
-        saludPj.vida += cantidadCura;
+        _lifePj._life += _cureAmount;
 
         Destroy(gameObject);
 
-        Debug.Log($"Se le sumo {cantidadCura} Puntos de salud al personaje");
+        Debug.Log($"Se le sumo {_cureAmount} Puntos de salud al personaje");
 
-        Debug.Log($"Su salud actual es de: {saludPj.vida} Puntos");
+        Debug.Log($"Su salud actual es de: {_lifePj._life} Puntos");
 
     }
 }

@@ -6,14 +6,19 @@ public class PJ : MonoBehaviour
 {
     [SerializeField]
     private Transform _camTransform;
+
     [SerializeField]
     float _movementSpeed;
+
     [SerializeField]
     float _rotationSpeed;
+
     [SerializeField]
     float _jumpForce;
+
     [SerializeField]
     float _speedMultiplier;
+
     [SerializeField]
     bool _grounded;
 
@@ -33,9 +38,13 @@ public class PJ : MonoBehaviour
     void Update()
     {
         float _moveonX = (Input.GetAxisRaw("Horizontal")); 
+
         float _moveonZ = (Input.GetAxisRaw("Vertical"));
+
         _direction = new Vector3(_moveonX, 0 , _moveonZ);
+
         if (Input.GetKeyDown(KeyCode.Space) && _grounded) Jump();
+
         Ducking();
     }
 
@@ -52,20 +61,29 @@ public class PJ : MonoBehaviour
     {
         //Iguala los ejes del personaje a los de la cámara.
         Vector3 fwd = _camTransform.forward;
+
         Vector3 rht = _camTransform.right;
+
         fwd.y = 0;
+
         rht.y = 0;
-        fwd = fwd.normalized;
-        rht = rht.normalized;
-        Vector3 fwdRel = _direction.z * fwd;
-        Vector3 rhtRel = _direction.x * rht;
+
+        //fwd = fwd.normalized;
+
+        //rht = rht.normalized;
+
+        Vector3 fwdRel = _direction.z * fwd.normalized;
+
+        Vector3 rhtRel = _direction.x * rht.normalized;
+
         _camRel = fwdRel + rhtRel;
-        //
+        
 
         rb.MovePosition(transform.position + _camRel.normalized * _movementSpeed * Time.fixedDeltaTime);
 
         //Establece la rotación del personaje siempre hacia donde se esté moviendo, pero relativo a la cámara.
         Quaternion rotateTo = Quaternion.LookRotation(_camRel, Vector3.up);
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateTo, _rotationSpeed * Time.fixedDeltaTime);
     }
 
