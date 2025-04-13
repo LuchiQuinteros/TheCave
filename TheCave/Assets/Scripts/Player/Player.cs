@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PJ : MonoBehaviour
+public class Player : Entity
 {
     [SerializeField]
     private Transform _camTransform;
-
-    [SerializeField]
-    float _movementSpeed;
 
     [SerializeField]
     float _rotationSpeed;
@@ -22,7 +19,7 @@ public class PJ : MonoBehaviour
     [SerializeField]
     bool _grounded;
 
-    Rigidbody rb;
+    private PlayerMovement _playerMovement;
 
     [SerializeField]
     private CapsuleCollider _standingCollider;
@@ -30,8 +27,6 @@ public class PJ : MonoBehaviour
     [SerializeField]
     private CapsuleCollider _crouchingCollider;
 
-    [SerializeField]
-    private Animator _playerAnimator;
 
     //Vector de dirección
     //private Vector3 _direction;
@@ -41,11 +36,14 @@ public class PJ : MonoBehaviour
     private Vector3 _camRel;
 
 
-
+    private void Awake()
+    {
+        _playerMovement = new PlayerMovement();
+    }
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        
+        GetRB();
+        StartingHealth();
     }
 
     void Update()
@@ -61,23 +59,28 @@ public class PJ : MonoBehaviour
         Ducking();
 
         Attacking();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            TakeDamage(100f);
+        }
     }
 
     private void FixedUpdate()
     {
         //Si el jugador se mueve, el modelo siempre apuntará en la dirección que se está moviendo.
-        if(_direction.sqrMagnitude != 0)
+        if (_direction.sqrMagnitude != 0)
         {
-            _playerAnimator.SetBool("isRunning", true);
+            _animator.SetBool("isRunning", true);
 
-            Movement(_direction);  
+            Movement(_direction);
         }
         else
         {
-            _playerAnimator.SetBool("isRunning", false);
+            _animator.SetBool("isRunning", false);
         }
 
-        
+
     }
 
     void Movement(Vector2 dir)
@@ -100,9 +103,9 @@ public class PJ : MonoBehaviour
         Vector3 rhtRel = dir.x * rht.normalized;
 
         _camRel = fwdRel + rhtRel;
-        
 
-        rb.MovePosition(transform.position + _camRel.normalized * _movementSpeed * Time.fixedDeltaTime);
+
+        _rb.MovePosition(transform.position + _camRel.normalized * _movementSpeed * Time.fixedDeltaTime);
 
         //Establece la rotación del personaje siempre hacia donde se esté moviendo, pero relativo a la cámara.
         Quaternion rotateTo = Quaternion.LookRotation(_camRel, Vector3.up);
@@ -115,12 +118,12 @@ public class PJ : MonoBehaviour
         //Realizamos que el personaje pueda saltar.
         if (Input.GetKeyDown(KeyCode.Space) && _grounded)
         {
-            rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
-            _playerAnimator.SetBool("isJumping", true);
+            _animator.SetBool("isJumping", true);
 
         }
-        else _playerAnimator.SetBool("isJumping", false);
+        else _animator.SetBool("isJumping", false);
 
     }
 
@@ -136,14 +139,14 @@ public class PJ : MonoBehaviour
         {
             _movementSpeed /= _speedMultiplier;
 
-            _playerAnimator.SetBool("isDucking", true);
+            _animator.SetBool("isDucking", true);
 
             _crouchingCollider.enabled = true;
             _standingCollider.enabled = false;
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-            _playerAnimator.SetBool("isDucking", false);
+            _animator.SetBool("isDucking", false);
 
             _movementSpeed *= _speedMultiplier;
 
@@ -157,7 +160,7 @@ public class PJ : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _playerAnimator.SetBool("isAttacking", true);
+            _animator.SetBool("isAttacking", true);
         }
     }
 
@@ -175,5 +178,11 @@ public class PJ : MonoBehaviour
         {
             _grounded = false;
         }
+    }
+
+    protected override void Death()
+    {
+        //base.Death();
+        Debug.Log("El player murió");
     }
 }
