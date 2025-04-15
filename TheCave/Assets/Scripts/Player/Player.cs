@@ -8,18 +8,20 @@ public class Player : Entity
     private Transform _camTransform;
 
     [SerializeField]
-    float _rotationSpeed;
+    private float _rotationSpeed;
 
     [SerializeField]
-    float _jumpForce;
+    private float _jumpForce;
 
     [SerializeField]
-    float _speedMultiplier;
+    private float _speedMultiplier;
 
     [SerializeField]
     bool _grounded;
 
     private PlayerMovement _playerMovement;
+
+    private PlayerInputs _playerInputs;
 
     [SerializeField]
     private CapsuleCollider _standingCollider;
@@ -33,12 +35,14 @@ public class Player : Entity
     Vector2 _direction;
 
     //Vector indicador de posición de la cámara
-    private Vector3 _camRel;
+    protected Vector3 _camRel;
 
+    public Vector2 Direction { get { return _direction; } set { _direction = value; } }
 
     private void Awake()
     {
         _playerMovement = new PlayerMovement();
+        _playerInputs = new PlayerInputs(this);
     }
     void Start()
     {
@@ -48,22 +52,18 @@ public class Player : Entity
 
     void Update()
     {
-        float h = (Input.GetAxisRaw("Horizontal")); 
-
-        float v = (Input.GetAxisRaw("Vertical"));
-
-        _direction = new Vector2(h, v);
-
+        _playerInputs.MovementInputs();
+     
         Jump();
 
         Ducking();
 
         Attacking();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            TakeDamage(100f);
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    TakeDamage(100f);
+        //}
     }
 
     private void FixedUpdate()

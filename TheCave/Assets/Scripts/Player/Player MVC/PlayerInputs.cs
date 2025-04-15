@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInputs : MonoBehaviour
+public class PlayerInputs 
 {
-    // Start is called before the first frame update
-    void Start()
+    Player _player;
+    
+    public PlayerInputs(Player p)
     {
-        
+        _player = p;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MovementInputs()
     {
-        
+        float h = (Input.GetAxisRaw("Horizontal"));
+
+        float v = (Input.GetAxisRaw("Vertical"));
+
+        _player.Direction = new Vector2(h, v);
     }
 }
