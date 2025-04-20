@@ -23,26 +23,22 @@ public class Player : Entity
 
     private PlayerInputs _playerInputs;
 
+    private PlayerView _playerView;
+
     [SerializeField]
     private CapsuleCollider _standingCollider;
 
     [SerializeField]
     private CapsuleCollider _crouchingCollider;
 
-
-    //Vector de dirección
-    //private Vector3 _direction;
-    Vector2 _direction;
-
-    //Vector indicador de posición de la cámara
-    protected Vector3 _camRel;
-
-    public Vector2 Direction { get { return _direction; } set { _direction = value; } }
-
     private void Awake()
     {
-        _playerMovement = new PlayerMovement();
-        _playerInputs = new PlayerInputs(this);
+        _playerMovement = new PlayerMovement(transform, _camTransform, _rb, _movementSpeed, _rotationSpeed, _jumpForce);
+
+        _playerView = new PlayerView(_animator);
+
+        _playerInputs = new PlayerInputs(_playerMovement, _playerView, _grounded);
+        
     }
     void Start()
     {
@@ -52,80 +48,50 @@ public class Player : Entity
 
     void Update()
     {
-        _playerInputs.MovementInputs();
-     
-        Jump();
-
         Ducking();
 
         Attacking();
 
-        //if (Input.GetKeyDown(KeyCode.LeftShift))
-        //{
-        //    TakeDamage(100f);
-        //}
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            TakeDamage(100f);
+        }
     }
 
     private void FixedUpdate()
     {
         //Si el jugador se mueve, el modelo siempre apuntará en la dirección que se está moviendo.
-        if (_direction.sqrMagnitude != 0)
-        {
-            _animator.SetBool("isRunning", true);
-
-            Movement(_direction);
-        }
-        else
-        {
-            _animator.SetBool("isRunning", false);
-        }
+        //if (_direction.sqrMagnitude != 0)
+        //{
+        //    _animator.SetBool("isRunning", true);
 
 
+        //    //Movement(_direction);
+        //}
+        //else
+        //{
+        //    _animator.SetBool("isRunning", false);
+        //}
+
+        _playerInputs.InputsUpdate();
+        
     }
 
-    void Movement(Vector2 dir)
-    {
-        //Iguala los ejes del personaje a los de la cámara.
-        Vector3 fwd = _camTransform.forward;
+    
 
-        Vector3 rht = _camTransform.right;
+    //void Jump()
+    //{
+    //    //Realizamos que el personaje pueda saltar.
+    //    if (Input.GetKeyDown(KeyCode.Space) && _grounded)
+    //    {
+    //        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
 
-        fwd.y = 0;
+    //        _animator.SetBool("isJumping", true);
 
-        rht.y = 0;
+    //    }
+    //    else _animator.SetBool("isJumping", false);
 
-        //fwd = fwd.normalized;
-
-        //rht = fwd.normalized;
-
-        Vector3 fwdRel = dir.y * fwd.normalized;
-
-        Vector3 rhtRel = dir.x * rht.normalized;
-
-        _camRel = fwdRel + rhtRel;
-
-
-        _rb.MovePosition(transform.position + _camRel.normalized * _movementSpeed * Time.fixedDeltaTime);
-
-        //Establece la rotación del personaje siempre hacia donde se esté moviendo, pero relativo a la cámara.
-        Quaternion rotateTo = Quaternion.LookRotation(_camRel, Vector3.up);
-
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateTo, _rotationSpeed * Time.fixedDeltaTime);
-    }
-
-    void Jump()
-    {
-        //Realizamos que el personaje pueda saltar.
-        if (Input.GetKeyDown(KeyCode.Space) && _grounded)
-        {
-            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-
-            _animator.SetBool("isJumping", true);
-
-        }
-        else _animator.SetBool("isJumping", false);
-
-    }
+    //}
 
     void Ducking()
     {
@@ -184,5 +150,6 @@ public class Player : Entity
     {
         //base.Death();
         Debug.Log("El player murió");
+        _playerInputs.input = false;
     }
 }

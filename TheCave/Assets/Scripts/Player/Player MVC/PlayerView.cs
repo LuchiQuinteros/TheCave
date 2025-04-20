@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerView : MonoBehaviour
+public class PlayerView 
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator _animator;
+    public PlayerView(Animator anim)
     {
-        
+        _animator = anim;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MovementPressed()
     {
-        
+        _animator.SetBool("isRunning", true);
+    }
+
+    public void MovementStatic()
+    {
+        _animator.SetBool("isRunning", false);
+    }
+
+    public void JumpPressed()
+    {
+        _animator.SetBool("isJumping", true);
+    }
+
+    public void JumpEnd()
+    {
+        _animator.SetBool("isJumping", false);
     }
 }
