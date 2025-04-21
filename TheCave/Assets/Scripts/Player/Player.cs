@@ -31,6 +31,14 @@ public class Player : Entity
     [SerializeField]
     private CapsuleCollider _crouchingCollider;
 
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("Manotazo"))
+        {
+            Debug.Log("Manotazo");
+        }
+    }
+
     private void Awake()
     {
         _playerMovement = new PlayerMovement(transform, _camTransform, _rb, _movementSpeed, _rotationSpeed, _jumpForce);
@@ -151,5 +159,10 @@ public class Player : Entity
         //base.Death();
         Debug.Log("El player murió");
         _playerInputs.input = false;
+    }
+
+    public void SetPlayer(Transform playerPosition)
+    {
+        playerPosition = transform;
     }
 }
