@@ -14,7 +14,8 @@ public class Player : Entity
     private float _jumpForce;
 
     [SerializeField]
-    private float _speedMultiplier;
+    private float _crouchingSpeed, _standingSpeed;
+    
 
     [SerializeField]
     bool _grounded;
@@ -41,12 +42,12 @@ public class Player : Entity
 
     private void Awake()
     {
-        _playerMovement = new PlayerMovement(transform, _camTransform, _rb, _movementSpeed, _rotationSpeed, _jumpForce);
+        _playerMovement = new PlayerMovement(transform, _camTransform, _rb, _movementSpeed, _rotationSpeed, _jumpForce, _crouchingSpeed, _standingSpeed);
 
-        _playerView = new PlayerView(_animator);
+        _playerView = new PlayerView(_animator, _standingCollider, _crouchingCollider);
 
-        _playerInputs = new PlayerInputs(_playerMovement, _playerView, _grounded);
-        
+        _playerInputs = new PlayerInputs(_playerMovement, _playerView);
+       
     }
     void Start()
     {
@@ -56,8 +57,9 @@ public class Player : Entity
 
     void Update()
     {
-        Ducking();
 
+        _playerInputs.InputsUpdate(_grounded);
+ 
         Attacking();
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -68,66 +70,7 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
-        //Si el jugador se mueve, el modelo siempre apuntará en la dirección que se está moviendo.
-        //if (_direction.sqrMagnitude != 0)
-        //{
-        //    _animator.SetBool("isRunning", true);
-
-
-        //    //Movement(_direction);
-        //}
-        //else
-        //{
-        //    _animator.SetBool("isRunning", false);
-        //}
-
-        _playerInputs.InputsUpdate();
-        
-    }
-
-    
-
-    //void Jump()
-    //{
-    //    //Realizamos que el personaje pueda saltar.
-    //    if (Input.GetKeyDown(KeyCode.Space) && _grounded)
-    //    {
-    //        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-
-    //        _animator.SetBool("isJumping", true);
-
-    //    }
-    //    else _animator.SetBool("isJumping", false);
-
-    //}
-
-    void Ducking()
-    {
-        //El personaje con esta condicion tiene la opcion de poder ir agachado en el juego como si estuviera en sigilo
-
-        //if (Input.GetKeyDown(KeyCode.LeftControl)) _movementSpeed /= _speedMultiplier;
-
-        //else if (Input.GetKeyUp(KeyCode.LeftControl)) _movementSpeed *= _speedMultiplier;
-
-        if(Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            _movementSpeed /= _speedMultiplier;
-
-            _animator.SetBool("isDucking", true);
-
-            _crouchingCollider.enabled = true;
-            _standingCollider.enabled = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            _animator.SetBool("isDucking", false);
-
-            _movementSpeed *= _speedMultiplier;
-
-            _crouchingCollider.enabled = false;
-            _standingCollider.enabled = true;
-        }
-        
+       
     }
 
     void Attacking()

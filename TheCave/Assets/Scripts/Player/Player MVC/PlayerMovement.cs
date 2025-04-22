@@ -16,11 +16,13 @@ public class PlayerMovement
 
     private float _jumpForce;
 
+    private float _crouchingSpeed, _standingSpeed;
+
     private Vector2 _direction;
 
     private Vector3 _camRel;
 
-    public PlayerMovement(Transform pTransform, Transform camTransform , Rigidbody rb ,float pSpeed, float pRotSpeed, float jForce)
+    public PlayerMovement(Transform pTransform, Transform camTransform , Rigidbody rb ,float pSpeed, float pRotSpeed, float jForce, float crouchingSpeed, float standingSpeed)
     {
         _transform = pTransform;
 
@@ -29,6 +31,10 @@ public class PlayerMovement
         _rb = rb;
 
         _speed = pSpeed;
+
+        _crouchingSpeed = crouchingSpeed;
+
+        _standingSpeed = standingSpeed;
 
         _rotationSpeed = pRotSpeed;
 
@@ -68,5 +74,15 @@ public class PlayerMovement
     public void Jump()
     {
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+    }
+
+    public void Duck()
+    {
+        _speed = _crouchingSpeed;
+    }
+
+    public void Standing()
+    {
+        _speed = _standingSpeed;
     }
 }

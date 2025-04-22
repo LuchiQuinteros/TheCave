@@ -47,7 +47,7 @@ public class Enemigos : MonoBehaviour
             switch (rutina)
             {
                 case 0:
-                    ani.SetBool("Walk", false);
+                    ani.SetBool("walk", false);
                     break;
                 case 1:
                     grado = Random.Range(0, 360);
@@ -61,7 +61,7 @@ public class Enemigos : MonoBehaviour
 
                     transform.Translate(Vector3.forward * 1 * Time.deltaTime);
 
-                    ani.SetBool("Walk", true);
+                    ani.SetBool("walk", true);
                     break;
             }
         }
@@ -99,9 +99,11 @@ public class Enemigos : MonoBehaviour
 
     public void Final_Ani()
     {
+        Debug.Log("Evento");
         ani.SetBool("attack", false);
         atacando = false;
         atacando = false;
+
     }
 
     private void Update()
@@ -109,4 +111,6 @@ public class Enemigos : MonoBehaviour
         Comportamiento_Enemigo();
     }
 
+
+    
 }

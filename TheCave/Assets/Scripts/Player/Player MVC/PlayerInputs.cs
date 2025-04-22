@@ -12,15 +12,14 @@ public class PlayerInputs
 
     public bool input = true;
 
-    private bool _grounded;
-    public PlayerInputs(PlayerMovement pMove, PlayerView pView, bool grounded) 
+    public PlayerInputs(PlayerMovement pMove, PlayerView pView) 
     {
         _playerMovement = pMove;
         _playerView = pView;
-        _grounded = grounded;
+        
     }
 
-    public void InputsUpdate()
+    public void InputsUpdate(bool grounded)
     {
         if (!input)
         {
@@ -28,7 +27,14 @@ public class PlayerInputs
         }
 
         MovementInputs();
-        JumpInput();
+        
+        
+        DuckInput();
+
+        if (grounded)
+        {
+            JumpInput();
+        }     
     }
 
     private void MovementInputs()
@@ -51,26 +57,30 @@ public class PlayerInputs
 
     private void JumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _grounded)
-        {
-            Debug.Log("Salté");
-            _playerView.JumpPressed();
-            _playerMovement.Jump();
-        }
-        else _playerView.JumpEnd();
-        
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+
+                _playerView.JumpPressed();
+                _playerMovement.Jump();
+            }
+            else _playerView.JumpEnd();   
     }
 
     public void DuckInput()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
+            Debug.Log("Me agaché");
+            _playerMovement.Duck();
+            _playerView.DuckStart();
 
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-
+            _playerMovement.Standing();
+            _playerView.DuckEnd();
         }
         
     }
+
 }
