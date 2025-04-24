@@ -41,34 +41,47 @@ public class PlayerMovement
         _jumpForce = jForce; 
     }
 
+    //public void GetDir(Vector2 dir)
+    //{
+    //    _direction = dir;
+    //}
     public void Movement(Vector2 dir)
     {
-        //Iguala los ejes del personaje a los de la cámara.
-        Vector3 fwd = _camTransform.forward;
+        //if(_direction.sqrMagnitude == 0)
+        //{
+        //    return;
+        //}
+        //else
+        //{
+            //Iguala los ejes del personaje a los de la cámara.
+            Vector3 fwd = _camTransform.forward;
 
-        Vector3 rht = _camTransform.right;
+            Vector3 rht = _camTransform.right;
 
-        fwd.y = 0;
+            fwd.y = 0;
 
-        rht.y = 0;
+            rht.y = 0;
 
-        //fwd = fwd.normalized;
+            //fwd = fwd.normalized;
 
-        //rht = fwd.normalized;
+            //rht = fwd.normalized;
 
-        Vector3 fwdRel = dir.y * fwd.normalized;
+            Vector3 fwdRel = dir.y * fwd.normalized;
 
-        Vector3 rhtRel = dir.x * rht.normalized;
+            Vector3 rhtRel = dir.x * rht.normalized;
 
-        _camRel = fwdRel + rhtRel;
+            _camRel = fwdRel + rhtRel;
 
 
-        _rb.MovePosition(_transform.position + _camRel.normalized * _speed * Time.fixedDeltaTime);
+            _rb.MovePosition(_transform.position + _camRel.normalized * _speed * Time.fixedDeltaTime);
 
-        //Establece la rotación del personaje siempre hacia donde se esté moviendo, pero relativo a la cámara.
-        Quaternion rotateTo = Quaternion.LookRotation(_camRel, Vector3.up);
 
-        _transform.rotation = Quaternion.RotateTowards(_transform.rotation, rotateTo, _rotationSpeed * Time.fixedDeltaTime);
+            //Establece la rotación del personaje siempre hacia donde se esté moviendo, pero relativo a la cámara.
+            Quaternion rotateTo = Quaternion.LookRotation(_camRel, Vector3.up);
+
+            _transform.rotation = Quaternion.RotateTowards(_transform.rotation, rotateTo, _rotationSpeed * Time.fixedDeltaTime);
+        
+       
     }
 
     public void Jump()

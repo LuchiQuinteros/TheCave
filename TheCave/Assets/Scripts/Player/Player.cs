@@ -70,7 +70,7 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
-       
+        //_playerMovement.Movement();
     }
 
     void Attacking()

@@ -49,6 +49,7 @@ public class PlayerInputs
         {
             _playerView.MovementPressed();
             _playerMovement.Movement(_dir);
+            //_playerMovement.GetDir(_dir);
         }
         else _playerView.MovementStatic();
 
