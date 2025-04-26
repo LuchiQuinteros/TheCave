@@ -16,6 +16,12 @@ public class Platforms : MonoBehaviour
     [SerializeField]
     float cronometro;
 
+    [SerializeField]
+    float cronometroExit;
+
+    [SerializeField]
+    float localCronometro;
+
     private void Update()
     {
         MovePlatform();
@@ -46,12 +52,12 @@ public class Platforms : MonoBehaviour
 
             if (cronometro >= 5)
             {
+                collision.gameObject.transform.SetParent(null);
+
                 Destroy(gameObject);
 
                 cronometro = 0;
             }
-
-            //collision.gameObject.transform.SetParent(transform);
         }
     }
 
@@ -71,7 +77,16 @@ public class Platforms : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            cronometroExit += 1 * Time.deltaTime;
+
+            localCronometro = cronometro;
+
             collision.gameObject.transform.SetParent(null);
+
+            if (cronometroExit >= 3)
+            {
+                localCronometro = 0;
+            }
         }
     }
 
