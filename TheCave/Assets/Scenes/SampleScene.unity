@@ -2114,7 +2114,7 @@ Transform:
   m_GameObject: {fileID: 744052997}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.54, y: 12.44, z: 4.12}
+  m_LocalPosition: {x: 1.02, y: 12.44, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9617,15 +9617,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b01f9d8feccd38846badac1a12073322, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.85
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b01f9d8feccd38846badac1a12073322, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.078
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b01f9d8feccd38846badac1a12073322, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.9
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b01f9d8feccd38846badac1a12073322, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25837,7 +25837,7 @@ GameObject:
   - component: {fileID: 1932778049}
   - component: {fileID: 1932778048}
   - component: {fileID: 1932778047}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25860,6 +25860,7 @@ MonoBehaviour:
   - {fileID: 529841033}
   - {fileID: 1862990089}
   platformSpeed: 2
+  cronometro: 0
 --- !u!65 &1932778048
 BoxCollider:
   m_ObjectHideFlags: 0

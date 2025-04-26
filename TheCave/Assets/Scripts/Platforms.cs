@@ -13,6 +13,9 @@ public class Platforms : MonoBehaviour
 
     int waypointsIndex;
 
+    [SerializeField]
+    float cronometro;
+
     private void Update()
     {
         MovePlatform();
@@ -35,14 +38,34 @@ public class Platforms : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointsIndex].transform.position, platformSpeed * Time.deltaTime);
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            cronometro += 1 * Time.deltaTime;
+
+            if (cronometro >= 5)
+            {
+                Destroy(gameObject);
+
+                cronometro = 0;
+            }
+
+            //collision.gameObject.transform.SetParent(transform);
+        }
+    }
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+
             collision.gameObject.transform.SetParent(transform);
+
         }
-        //Destroy(gameObject);
     }
+
 
     private void OnCollisionExit(Collision collision)
     {

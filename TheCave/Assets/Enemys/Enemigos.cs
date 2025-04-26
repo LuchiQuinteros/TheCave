@@ -40,6 +40,7 @@ public class Enemigos : MonoBehaviour
 
             if (cronometro >= 4)
             {
+
                 rutina = Random.Range(0, 2);
                 cronometro = 0;
             }
