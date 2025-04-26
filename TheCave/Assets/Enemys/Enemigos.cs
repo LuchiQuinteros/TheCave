@@ -8,6 +8,11 @@ public class Enemigos : MonoBehaviour
     int rutina;
 
     [SerializeField]
+    float damage;
+
+    Entity damageEnemigo;
+
+    [SerializeField]
     float cronometro;
 
     [SerializeField]
@@ -93,6 +98,8 @@ public class Enemigos : MonoBehaviour
 
                 ani.SetBool("attack", true);
                 atacando = true;
+
+                //damageEnemigo.TakeDamage(damage);
             }
          
         }

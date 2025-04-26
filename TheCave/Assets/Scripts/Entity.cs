@@ -6,6 +6,7 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField]
     private float _maxHealth;
+
     [SerializeField]
     private float _currentHealth;
 

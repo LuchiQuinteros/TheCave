@@ -28411,8 +28411,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.32110173, y: 0.29377973, z: 0.32776594}
-  m_Center: {x: -0.36691836, y: 0.90505713, z: 1.37149}
+  m_Size: {x: 0.47211602, y: 0.29377973, z: 0.6844876}
+  m_Center: {x: -0.1969064, y: 0.90505713, z: 1.0312084}
 --- !u!114 &2092144164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28426,6 +28426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rutina: 0
+  damage: 5
   cronometro: 0
   ani: {fileID: 2092144165}
   angulo: {x: 0, y: 0, z: 0, w: 0}
