@@ -5,34 +5,40 @@ using UnityEngine;
 public class Enemigos : MonoBehaviour
 {
     [SerializeField]
-    int rutina;
+    int routine;
 
     [SerializeField]
-    float damage;
-
-    Entity damageEnemigo;
+    public float maxHealth;
 
     [SerializeField]
-    float cronometro;
+    public float currentHealth;
+
+    [SerializeField]
+    public float damage;
+
+    [SerializeField]
+    float chronometer;
 
     [SerializeField]
     Animator ani;
 
     [SerializeField]
-    Quaternion angulo;
+    Quaternion angle;
 
     [SerializeField]
-    float grado;
+    float degree;
 
     [SerializeField]
     Transform target;
 
     [SerializeField]
-    bool atacando;
+    bool attacking;
 
     private void Start()
     {
         ani = GetComponent<Animator>();
+
+        currentHealth = maxHealth;
     }
 
     public void Comportamiento_Enemigo()
@@ -41,29 +47,29 @@ public class Enemigos : MonoBehaviour
         {
             ani.SetBool("run", false);
 
-            cronometro += 1 * Time.deltaTime;
+            chronometer += 1 * Time.deltaTime;
 
-            if (cronometro >= 4)
+            if (chronometer >= 4)
             {
 
-                rutina = Random.Range(0, 2);
-                cronometro = 0;
+                routine = Random.Range(0, 2);
+                chronometer = 0;
             }
 
-            switch (rutina)
+            switch (routine)
             {
                 case 0:
                     ani.SetBool("walk", false);
                     break;
                 case 1:
-                    grado = Random.Range(0, 360);
+                    degree = Random.Range(0, 360);
 
-                    angulo = Quaternion.Euler(0, grado, 0);
+                    angle = Quaternion.Euler(0, degree, 0);
 
-                    rutina++;
+                    routine++;
                     break;
                 case 2:
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, angulo, 0.5f);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, angle, 0.5f);
 
                     transform.Translate(Vector3.forward * 1 * Time.deltaTime);
 
@@ -73,7 +79,7 @@ public class Enemigos : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(transform.position, target.transform.position) > 1 && !atacando)
+            if (Vector3.Distance(transform.position, target.transform.position) > 1 && !attacking)
             {
                 var lookpos = target.transform.position - transform.position;
 
@@ -97,9 +103,7 @@ public class Enemigos : MonoBehaviour
                 ani.SetBool("walk", false);
 
                 ani.SetBool("attack", true);
-                atacando = true;
-
-                //damageEnemigo.TakeDamage(damage);
+                attacking = true;
             }
          
         }
@@ -109,8 +113,8 @@ public class Enemigos : MonoBehaviour
     {
         Debug.Log("Evento");
         ani.SetBool("attack", false);
-        atacando = false;
-        atacando = false;
+        attacking = false;
+        attacking = false;
 
     }
 
@@ -119,6 +123,17 @@ public class Enemigos : MonoBehaviour
         Comportamiento_Enemigo();
     }
 
+    public void TakeDamageEnemy(float damage)
+    {
+        if (currentHealth <= 0f) return;
+        currentHealth -= damage;
 
-    
+        if (currentHealth <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+
 }

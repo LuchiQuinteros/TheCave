@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField]
-    private float _maxHealth;
+    protected float _maxHealth;
 
     [SerializeField]
-    private float _currentHealth;
+    protected float _currentHealth;
 
     [SerializeField]
     protected float _movementSpeed;
@@ -30,9 +30,9 @@ public abstract class Entity : MonoBehaviour
         _currentHealth = _maxHealth;
     }
 
-    public void TakeDamage(float damage)
+    virtual protected void TakeDamage(float damage)
     {
-        if (_currentHealth <= 0) return;
+        if (_currentHealth <= 0f) return;
         _currentHealth -= damage;
 
         if (_currentHealth <= 0f)

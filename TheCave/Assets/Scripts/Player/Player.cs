@@ -8,6 +8,9 @@ public class Player : Entity
     private Transform _camTransform;
 
     [SerializeField]
+    int damageEnemy;
+
+    [SerializeField]
     private float _rotationSpeed;
 
     [SerializeField]
@@ -15,6 +18,9 @@ public class Player : Entity
 
     [SerializeField]
     private float _crouchingSpeed, _standingSpeed;
+
+    [SerializeField]
+    Enemigos enemy;
     
 
     [SerializeField]
@@ -34,9 +40,9 @@ public class Player : Entity
 
     private void OnTriggerEnter(Collider coll)
     {
-        if (coll.CompareTag("Manotazo"))
+        if (coll.CompareTag("zombie"))
         {
-            Debug.Log("Manotazo");
+            TakeDamage(enemy.damage);
         }
     }
 
@@ -87,6 +93,11 @@ public class Player : Entity
         if (collision.gameObject.layer == 3)
         {
             _grounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("zombie"))
+        {
+            enemy.TakeDamageEnemy(damageEnemy);
         }
     }
     private void OnCollisionExit(Collision collision)

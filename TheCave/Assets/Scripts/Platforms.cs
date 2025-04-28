@@ -9,18 +9,25 @@ public class Platforms : MonoBehaviour
     public GameObject[] waypoints;
 
     [SerializeField]
-    float platformSpeed;
+    public float platformSpeed;
 
-    int waypointsIndex;
+    public int waypointsIndex;
 
     [SerializeField]
-    float cronometro;
+    public float cronometro;
 
     [SerializeField]
     float cronometroExit;
 
     [SerializeField]
     float localCronometro;
+
+    public bool test;
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -54,6 +61,8 @@ public class Platforms : MonoBehaviour
             {
                 collision.gameObject.transform.SetParent(null);
 
+                test = true;
+
                 Destroy(gameObject);
 
                 cronometro = 0;
@@ -66,27 +75,30 @@ public class Platforms : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-
             collision.gameObject.transform.SetParent(transform);
-
         }
     }
 
+    public IEnumerator myCourritine()
+    {
+        float countDown = 2f;
+
+        yield return new WaitForSeconds(countDown);
+
+        cronometro = 0;
+
+        yield return null;
+    }
 
     private void OnCollisionExit(Collision collision)
     {
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            cronometroExit += 1 * Time.deltaTime;
-
-            localCronometro = cronometro;
+            StartCoroutine(myCourritine());
 
             collision.gameObject.transform.SetParent(null);
 
-            if (cronometroExit >= 3)
-            {
-                localCronometro = 0;
-            }
         }
     }
 
