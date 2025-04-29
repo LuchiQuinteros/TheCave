@@ -16,10 +16,18 @@ public class SpawnPlatforms : MonoBehaviour
     [SerializeField]
     float chronometer;
 
+    public GameObject[] waypointsCopy;
+
+    [SerializeField]
+    Platforms waypointsIndexCopy;
+
+    [SerializeField]
+    Platforms speeds;
+
     private void Update()
     {
         CheckSpawn();
-        MoveAlongWaypoints();
+
     }
 
     void CheckSpawn()
@@ -37,26 +45,4 @@ public class SpawnPlatforms : MonoBehaviour
         Instantiate(platforms, platformTransform.position, Quaternion.identity);
     }
 
-    void MoveAlongWaypoints()
-    {
-        if (timer.waypoints.Length == 0) return; // safety check
-
-        // Move towards the current waypoint
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            timer.waypoints[timer.waypointsIndex].transform.position,
-            timer.platformSpeed * Time.deltaTime
-        );
-
-        // If reached the waypoint, go to the next
-        if (Vector3.Distance(transform.position, timer.waypoints[timer.waypointsIndex].transform.position) < 0.1f)
-        {
-            timer.waypointsIndex++;
-
-            if (timer.waypointsIndex >= timer.waypoints.Length)
-            {
-                timer.waypointsIndex = 0;
-            }
-        }
-    }
 }

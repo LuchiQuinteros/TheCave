@@ -13,6 +13,10 @@ public class Curandero : MonoBehaviour
     [SerializeField]
     GameObject enemy;
 
+    //Vida del curandero
+    [SerializeField]
+    float lifeQuack;
+
     public Enemigos life;
 
     public Enemigos maxLife;
@@ -46,6 +50,17 @@ public class Curandero : MonoBehaviour
 
                 chronometerCurander = 5f;
             }
+        }
+    }
+
+    public void TakeDamageQuack(float damage)
+    {
+        if (lifeQuack <= 0f) return;
+        lifeQuack -= damage;
+
+        if (lifeQuack <= 0f)
+        {
+            Destroy(gameObject);
         }
     }
 }

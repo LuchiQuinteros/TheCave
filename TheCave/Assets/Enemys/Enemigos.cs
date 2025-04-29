@@ -14,6 +14,9 @@ public class Enemigos : MonoBehaviour
     public float currentHealth;
 
     [SerializeField]
+    Player damagePJ;
+
+    [SerializeField]
     public float damage;
 
     [SerializeField]
@@ -111,7 +114,6 @@ public class Enemigos : MonoBehaviour
 
     public void Final_Ani()
     {
-        Debug.Log("Evento");
         ani.SetBool("attack", false);
         attacking = false;
         attacking = false;
@@ -127,6 +129,27 @@ public class Enemigos : MonoBehaviour
     {
         if (currentHealth <= 0f) return;
         currentHealth -= damage;
+
+        if (currentHealth <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("zombie"))
+        {
+            TakeDamageEnemy(damagePJ.damagePJ);
+        }
+    }
+
+    public void HealthEnemy(float curePoints)
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += curePoints;
+        }
 
         if (currentHealth <= 0f)
         {

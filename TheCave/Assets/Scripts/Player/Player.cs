@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Entity
@@ -8,7 +9,7 @@ public class Player : Entity
     private Transform _camTransform;
 
     [SerializeField]
-    int damageEnemy;
+    public int damagePJ;
 
     [SerializeField]
     private float _rotationSpeed;
@@ -21,7 +22,9 @@ public class Player : Entity
 
     [SerializeField]
     Enemigos enemy;
-    
+
+
+    Curandero quack;
 
     [SerializeField]
     bool _grounded;
@@ -38,11 +41,23 @@ public class Player : Entity
     [SerializeField]
     private CapsuleCollider _crouchingCollider;
 
+
+    //Aca el enemigo le saca salud al personaje
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("zombie"))
         {
             TakeDamage(enemy.damage);
+        }
+
+        if (coll.gameObject.CompareTag("zombie"))
+        {
+            enemy.TakeDamageEnemy(damagePJ);
+        }
+
+        if (coll.gameObject.CompareTag("curandero"))
+        {
+            quack.TakeDamageQuack(damagePJ);
         }
     }
 
@@ -74,11 +89,6 @@ public class Player : Entity
         }
     }
 
-    private void FixedUpdate()
-    {
-        //_playerMovement.Movement();
-    }
-
     void Attacking()
     {
         if (Input.GetMouseButtonDown(0))
@@ -88,21 +98,16 @@ public class Player : Entity
     }
 
     //Evitamos que el jugador siga saltando en el aire y no este volando.
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.layer == 3)
+        if (other.gameObject.layer == 3)
         {
             _grounded = true;
         }
-
-        if (collision.gameObject.CompareTag("zombie"))
-        {
-            enemy.TakeDamageEnemy(damageEnemy);
-        }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision other)
     {
-        if (collision.gameObject.layer == 3)
+        if (other.gameObject.layer == 3)
         {
             _grounded = false;
         }

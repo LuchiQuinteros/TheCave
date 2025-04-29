@@ -7,6 +7,8 @@ TagManager:
   - Manotazo
   - Base
   - zombie
+  - cura
+  - curandero
   layers:
   - Default
   - TransparentFX

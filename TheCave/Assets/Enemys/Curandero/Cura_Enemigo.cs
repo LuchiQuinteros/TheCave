@@ -20,11 +20,21 @@ public class Cura_Enemigo : MonoBehaviour
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.CompareTag("zombie"))
+        if (other.gameObject.CompareTag("zombie"))
         {
-            hp.currentHealth += pointCure;
+            Enemigos zombie = other.gameObject.GetComponent<Enemigos>();
+
+            if (zombie != null)
+            {
+                zombie.HealthEnemy(pointCure);
+                Debug.Log("Curé al zombie!");
+            }
+
+            Destroy(gameObject);
+            
         }
     }
+    
 }

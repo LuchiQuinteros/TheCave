@@ -5,29 +5,21 @@ using UnityEngine;
 
 public class Platforms : MonoBehaviour
 {
-
+    //hacemos un array para los waypoints de movimiento
     public GameObject[] waypoints;
 
+    //velocidad de la plataforma
     [SerializeField]
     public float platformSpeed;
 
+    //cantiadad de waypoints creados
     public int waypointsIndex;
 
+    //timer de vida de la plataforma
     [SerializeField]
     public float cronometro;
 
-    [SerializeField]
-    float cronometroExit;
-
-    [SerializeField]
-    float localCronometro;
-
     public bool test;
-
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -53,10 +45,13 @@ public class Platforms : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
+        //Pregunto si el personaje se encuentra sobre la plataforma
         if (collision.gameObject.CompareTag("Player"))
         {
+            //Al estar encima de la plataforma empieza un contador
             cronometro += 1 * Time.deltaTime;
 
+            //cuando el contador llega a 5 se desenparenta el personaje de la plataforma y se destruye la misma
             if (cronometro >= 5)
             {
                 collision.gameObject.transform.SetParent(null);
@@ -71,6 +66,7 @@ public class Platforms : MonoBehaviour
     }
 
 
+    //cuando el personaje colisiona con la plataforma se parenta con ella para poder seguir el movimiento de la misma
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -79,6 +75,7 @@ public class Platforms : MonoBehaviour
         }
     }
 
+    //creo una corrutina para detener el tiempo y asi cuando el personaje sale de encima de la plataforma se reseta la "vida" de ella
     public IEnumerator myCourritine()
     {
         float countDown = 2f;
@@ -90,6 +87,7 @@ public class Platforms : MonoBehaviour
         yield return null;
     }
 
+    //cuando el personaje sale de encima de la plataforma llamamos a la corrutina y lo desenparentamos
     private void OnCollisionExit(Collision collision)
     {
 
