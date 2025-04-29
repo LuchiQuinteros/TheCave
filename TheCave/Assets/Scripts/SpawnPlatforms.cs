@@ -5,44 +5,69 @@ using UnityEngine;
 public class SpawnPlatforms : MonoBehaviour
 {
     [SerializeField]
-    GameObject platforms;
+    Platforms platformsPrefabs;
 
     [SerializeField]
     Transform platformTransform;
 
     [SerializeField]
-    public Platforms timer;
-
-    [SerializeField]
     float chronometer;
 
-    public GameObject[] waypointsCopy;
-
     [SerializeField]
-    Platforms waypointsIndexCopy;
+    Platforms currentPrefabs;
 
-    [SerializeField]
-    Platforms speeds;
+    GameObject elementA;
+
+    GameObject elementB;
+
 
     private void Update()
     {
         CheckSpawn();
 
+        print(currentPrefabs);
+
     }
 
     void CheckSpawn()
     {
-        if (timer.test)
-        {
-            StartCoroutine(timer.myCourritine());
-            Spawn();
-            timer.test = false;
+        if (currentPrefabs != null && currentPrefabs.test)
+        {   
+            //Spawn();
+            //StartCoroutine(platformsPrefabs.myCourritine());
+
+            currentPrefabs = null;
+            
+            platformsPrefabs.test = false;
+
+            Debug.Log(platformsPrefabs.test);
         }
     }
 
+    /*
     void Spawn()
     {
-        Instantiate(platforms, platformTransform.position, Quaternion.identity);
+
+        //Platforms platformsCopy = Instantiate(platformsPrefabs, platformTransform.position, Quaternion.identity);
+
+        //platformsCopy.SetPlatform(elementA, elementB);
+
+        currentPrefabs = Instantiate(platformsPrefabs, platformTransform.position, Quaternion.identity);
+
+        currentPrefabs.SetPlatformScript(currentPrefabs);
+
+        currentPrefabs.SetPlatform(elementA, elementB);
+
+        Debug.Log("Spawn");
+
+    }
+    */
+
+    public void GetPLatform(GameObject a, GameObject b)
+    {
+        elementA = a; 
+        
+        elementB = b;
     }
 
 }

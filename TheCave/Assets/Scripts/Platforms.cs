@@ -19,6 +19,7 @@ public class Platforms : MonoBehaviour
     [SerializeField]
     public float cronometro;
 
+
     public bool test;
 
     private void Update()
@@ -56,9 +57,7 @@ public class Platforms : MonoBehaviour
             {
                 collision.gameObject.transform.SetParent(null);
 
-                test = true;
-
-                Destroy(gameObject);
+                //test = true;
 
                 cronometro = 0;
             }
@@ -76,6 +75,7 @@ public class Platforms : MonoBehaviour
     }
 
     //creo una corrutina para detener el tiempo y asi cuando el personaje sale de encima de la plataforma se reseta la "vida" de ella
+    /*
     public IEnumerator myCourritine()
     {
         float countDown = 2f;
@@ -86,6 +86,7 @@ public class Platforms : MonoBehaviour
 
         yield return null;
     }
+    
 
     //cuando el personaje sale de encima de la plataforma llamamos a la corrutina y lo desenparentamos
     private void OnCollisionExit(Collision collision)
@@ -99,5 +100,6 @@ public class Platforms : MonoBehaviour
 
         }
     }
+    */
 
 }
