@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IDamageable
 {
     [SerializeField]
     protected float _maxHealth;
@@ -28,9 +28,27 @@ public abstract class Entity : MonoBehaviour
     protected void StartingHealth()
     {
         _currentHealth = _maxHealth;
+        
     }
 
-    virtual protected void TakeDamage(float damage)
+    //protected void TakeDamage(float damage)
+    //{
+    //    if (_currentHealth <= 0f) return;
+    //    _currentHealth -= damage;
+
+    //    if (_currentHealth <= 0f)
+    //    {
+    //        Death();
+    //    }
+    //}
+
+
+    protected virtual void Death()
+    {
+        Debug.Log("Muerte");
+    }
+
+    public void TakeDamage(float damage)
     {
         if (_currentHealth <= 0f) return;
         _currentHealth -= damage;
@@ -41,8 +59,5 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    protected virtual void Death()
-    {
-        Debug.Log("Muerte");
-    }
+
 }

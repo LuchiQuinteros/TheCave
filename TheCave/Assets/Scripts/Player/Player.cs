@@ -47,7 +47,7 @@ public class Player : Entity
     {
         if (coll.CompareTag("zombie"))
         {
-            TakeDamage(enemy.damage);
+            TakeDamage(/*enemy.damage*/5f);
         }
 
         if (coll.gameObject.CompareTag("zombie"))
@@ -85,7 +85,8 @@ public class Player : Entity
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            TakeDamage(100f);
+            //TakeDamage(100f);
+
         }
     }
 
