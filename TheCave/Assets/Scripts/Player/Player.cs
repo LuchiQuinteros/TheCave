@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Entity
 {
@@ -22,6 +23,8 @@ public class Player : Entity
 
     [SerializeField]
     Enemigos enemy;
+
+    [SerializeField] Image life_Bar;
 
 
     Curandero quack;
@@ -82,6 +85,8 @@ public class Player : Entity
         _playerInputs.InputsUpdate(_grounded);
  
         Attacking();
+
+        life_Bar.fillAmount = _currentHealth / _maxHealth;
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {

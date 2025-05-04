@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cura_Enemigo : MonoBehaviour
+public class Cura_Enemigo : Enemigos
 {
     //velocidad del proyectil 
     [SerializeField]
