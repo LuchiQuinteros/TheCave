@@ -10,16 +10,14 @@ public abstract class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected Rigidbody _rb;
     [SerializeField] protected Animator _animator;
     [SerializeField] protected float _damage;
-    protected void GetRB()
+    protected void GetEssentials()
     {
         _rb = GetComponent<Rigidbody>();
-    }
-
-    protected void StartingHealth()
-    {
+        _animator = GetComponentInChildren<Animator>();
         _currentHealth = _maxHealth;
-
     }
+
+    
 
     //Si el objeto el cual se queda sin vida llamamos a este metodo para indicar que murio
     protected virtual void Death()

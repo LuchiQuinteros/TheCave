@@ -1,26 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemigos : Entity
+[RequireComponent(typeof(NavMeshAgent))]
+public class Enemy : Entity
 {
     [SerializeField] protected int _routine;
     [SerializeField] protected float _chronometer;
     [SerializeField] protected Quaternion angle;
     [SerializeField] protected float _degree;
-    [SerializeField] public Transform target;
     [SerializeField] protected bool _attacking;
     [SerializeField] protected float _healing;
-    [SerializeField] protected bool _detection;
-    [SerializeField] protected bool _detectionAttack;
+    //[SerializeField] protected bool _detection;
+    //[SerializeField] protected bool _detectionAttack;
     [SerializeField] protected float _damageEnemy;
     //[SerializeField] Player damagePJ;
 
+    private Patrol _patrol;
+    private Chase _chase;
+    private Attack _attack;
+
+    [SerializeField] private float _chaseDistance;
+    [SerializeField] private float _attackDistance;
+    [SerializeField] private float _wpChangeDistance;
+    [SerializeField] private Transform _target;
+    [SerializeField] private Transform[] _waypoints;
+    [SerializeField] private Transform _currentWp;
+    [SerializeField] private NavMeshAgent _navAgent;
+
     private void Start()
     {
-        _animator = GetComponent<Animator>();
-
-        _currentHealth = _maxHealth;
+        _patrol = new Patrol(_animator, _waypoints);
+        GetEssentials();
+        _navAgent = GetComponent<NavMeshAgent>(); 
     }
 
     /*
@@ -68,6 +81,14 @@ public class Enemigos : Entity
     private void Update()
     {
         //Comportamiento_Enemigo();
+        if (_navAgent.destination != _currentWp.position) _navAgent.SetDestination(_currentWp.position);
+
+        if(Vector3.SqrMagnitude(transform.position - _currentWp.position) <= _wpChangeDistance * _wpChangeDistance)
+        {
+            Debug.Log("Cambio de WP");
+            _currentWp = _patrol.NextWP();
+            _patrol.PatrolUpdate();
+        }
     }
 
     public void TakeDamageEnemy(float damage)
@@ -115,4 +136,8 @@ public class Enemigos : Entity
         }
     }
     
+    
+
 }
+
+

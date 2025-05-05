@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cura_Enemigo : Enemigos
+public class Cura_Enemigo : Enemy
 {
     //velocidad del proyectil 
     [SerializeField]
@@ -13,7 +13,7 @@ public class Cura_Enemigo : Enemigos
     float pointCure;
 
     [SerializeField]
-    Enemigos hp;
+    Enemy hp;
 
     private void Update()
     {
@@ -24,7 +24,7 @@ public class Cura_Enemigo : Enemigos
     {
         if (other.gameObject.CompareTag("zombie"))
         {
-            Enemigos zombie = other.gameObject.GetComponent<Enemigos>();
+            Enemy zombie = other.gameObject.GetComponent<Enemy>();
 
             if (zombie != null)
             {

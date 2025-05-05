@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Curandero : Enemigos
+public class Curandero : Enemy
 {
     //Vincular la cura de donde va a ser instanciada
     [SerializeField] GameObject cure;

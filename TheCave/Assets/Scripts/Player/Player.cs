@@ -22,7 +22,7 @@ public class Player : Entity
     private float _crouchingSpeed, _standingSpeed;
 
     [SerializeField]
-    Enemigos enemy;
+    Enemy enemy;
 
     [SerializeField] Image life_Bar;
 
@@ -75,8 +75,7 @@ public class Player : Entity
     }
     void Start()
     {
-        GetRB();
-        StartingHealth();
+        GetEssentials();
     }
 
     void Update()
