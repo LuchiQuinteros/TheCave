@@ -10,7 +10,7 @@ public abstract class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected Rigidbody _rb;
     [SerializeField] protected Animator _animator;
     [SerializeField] protected float _damage;
-    protected void GetEssentials()
+    protected void SetEssentials()
     {
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();

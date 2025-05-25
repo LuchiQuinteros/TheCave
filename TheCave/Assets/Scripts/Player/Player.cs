@@ -75,7 +75,7 @@ public class Player : Entity
     }
     void Start()
     {
-        GetEssentials();
+        SetEssentials();
     }
 
     void Update()

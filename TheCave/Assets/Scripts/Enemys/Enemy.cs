@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,7 +32,7 @@ public class Enemy : Entity
     private void Start()
     {
         _patrol = new Patrol(_animator, _waypoints);
-        GetEssentials();
+        SetEssentials();
         _navAgent = GetComponent<NavMeshAgent>(); 
     }
 
